@@ -32,3 +32,15 @@ export async function updateUser(id: string, user: any) {
 		console.log(error);
 	}
 }
+export async function deleteUser(id: string) {
+	try {
+		await connect();
+		if (id) {
+			const updatedUser = await User.findOneAndDelete({ clerkId: id });
+			return JSON.parse(JSON.stringify("User deleted"));
+		}
+		console.log("No id found");
+	} catch (error) {
+		console.log(error);
+	}
+}

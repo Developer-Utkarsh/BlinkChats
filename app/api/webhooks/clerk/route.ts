@@ -2,7 +2,7 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser, updateUser } from "@/lib/actions/useraction";
+import { createUser, deleteUser, updateUser } from "@/lib/actions/useraction";
 
 import { Webhook } from "svix";
 
@@ -101,8 +101,6 @@ export async function POST(req: Request) {
 			username,
 		} = evt.data;
 
-		console.log(evt.data);
-
 		const user = {
 			clerkId: id,
 			email: email_addresses[0].email_address,
@@ -118,6 +116,21 @@ export async function POST(req: Request) {
 			message: "User Updated",
 			user: updatedUser,
 		});
+	}
+	if (eventType === "user.deleted") {
+		const { id } = evt.data;
+		console.log(evt.data);
+		console.log(id);
+
+		if (typeof id === "string") {
+			// Ensure id is a string
+			const deletionResult = await deleteUser(id);
+			return NextResponse.json({
+				message: deletionResult,
+			});
+		} else {
+			return new Response("ID is undefined", { status: 400 });
+		}
 	}
 
 	console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
