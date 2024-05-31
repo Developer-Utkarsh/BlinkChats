@@ -1,6 +1,6 @@
 "use server";
 
-import User from "../modals/userModal";
+import { User } from "../modals/userModal";
 
 import { connect } from "@/lib/db";
 
@@ -17,9 +17,16 @@ export async function updateUser(id: string, user: any) {
 	try {
 		await connect();
 		if (id) {
-			const updatedUser = await User.findOneAndReplace(
+			const updatedUser = await User.findOneAndUpdate(
 				{ clerkId: id }, // Correctly match clerkId with the provided id
-				user,
+				{ firstName: user.firstName,
+					lastName:user.lastName,
+				 	email: user.email,,
+				 	username: user.username,
+				 	image:user.image,
+				 	updatedAt: new Date(),
+				 	
+				},
 				{
 					new: true, // Return the updated document
 				},
