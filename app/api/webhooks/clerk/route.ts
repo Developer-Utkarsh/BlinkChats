@@ -112,9 +112,6 @@ export async function POST(req: Request) {
 			photo: image_url,
 		};
 
-		console.log("User ID:" + id);
-		console.log(user);
-
 		const updatedUser = await updateUser(id, user);
 
 		return NextResponse.json({

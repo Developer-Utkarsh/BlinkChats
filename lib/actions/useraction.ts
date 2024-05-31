@@ -16,14 +16,15 @@ export async function createUser(user: any) {
 export async function updateUser(id: string, user: any) {
 	try {
 		await connect();
-		console.log(id);
 		if (id) {
-			const updatedUser = await User.findOneAndReplace({ id }, user, {
-				new: true,
-			});
-			console.log(user);
+			const updatedUser = await User.findOneAndReplace(
+				{ clerkId: id }, // Correctly match clerkId with the provided id
+				user,
+				{
+					new: true, // Return the updated document
+				},
+			);
 			console.log("Updated User", updatedUser);
-			console.log("updated");
 			return JSON.parse(JSON.stringify(updatedUser));
 		}
 		console.log("No id found");
