@@ -19,13 +19,13 @@ export async function updateUser(id: string, user: any) {
 		if (id) {
 			const updatedUser = await User.findOneAndUpdate(
 				{ clerkId: id }, // Correctly match clerkId with the provided id
-				{ firstName: user.firstName,
-					lastName:user.lastName,
-				 	email: user.email,,
-				 	username: user.username,
-				 	image:user.image,
-				 	updatedAt: new Date(),
-				 	
+				{
+					firstName: user.firstName,
+					lastName: user.lastName,
+					email: user.email,
+					username: user.username,
+					image: user.image,
+					updatedAt: new Date(),
 				},
 				{
 					new: true, // Return the updated document
